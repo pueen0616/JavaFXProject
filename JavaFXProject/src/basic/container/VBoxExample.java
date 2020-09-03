@@ -2,6 +2,8 @@ package basic.container;
 
 //javaFX class import
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,7 +26,7 @@ public class VBoxExample extends Application{	//FX를 사용하기 위해선 Application
 		ImageView iv = new ImageView();
 		iv.setFitWidth(200);
 		iv.setPreserveRatio(true); //한쪽이미지를 맞춰서 표현해주겠습니다.
-		iv.setImage(new Image("/basic/images/hwasan.jpg")); //Image 경로
+		iv.setImage(new Image("/basic/images/fruit1.jpg")); //Image 경로
 		
 		HBox hbox = new HBox();
 		hbox.setAlignment(Pos.CENTER);
@@ -39,6 +41,39 @@ public class VBoxExample extends Application{	//FX를 사용하기 위해선 Application
 		hbox.getChildren().add(btnPrev); // hbox에 이전 버튼을 담겠다.
 		hbox.getChildren().add(btnNext); // hbox에 다음 버튼을 담겠다.
 		VBox.setMargin(hbox, new Insets(10));
+		
+		//이벤트 핸들러를 해당 컨트롤에 등록.
+//		btnNext.setOnAction((ae) -> 
+//			System.out.println("handle: " + ae.getSource()));
+		btnNext.setOnAction(new EventHandler<ActionEvent>() { //EventHandler 이벤트
+			int loc = 1; 
+			@Override
+	         public void handle(ActionEvent ae) {
+				 if(loc == 8)
+					 loc = 1;
+	        	 iv.setImage(new Image("/basic/images/fruit" + loc++ + ".jpg"));
+	         }
+	      });
+		
+		btnPrev.setOnAction(new EventHandler<ActionEvent>() { //EventHandler 이벤트
+			int loc = 1; 
+			@Override
+	         public void handle(ActionEvent ae) {
+				 if(loc == 1)
+					 loc = 8;
+	        	 iv.setImage(new Image("/basic/images/fruit" + loc-- + ".jpg"));
+	         }
+	      });
+		
+		
+		
+//			@Override
+//			public void handle(ActionEvent ae) {
+//				// TODO Auto-generated method stub
+//				System.out.println("handle: " + ae.getSource());
+//			}
+//			
+//		});
 		
 		root.getChildren().add(iv); // getChildren : 무대위에 객체를 올려준다.
 		root.getChildren().add(hbox);
